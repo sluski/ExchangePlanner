@@ -6,6 +6,10 @@ package pl.slupski.controller.pojo;
  */
 public class Unit {
 
+    public static final String TABLE_NAME = "t_unit";
+    public static final String COLUMNS = "name, shortcut";
+    public static final String PARAMETERS = "#{name}, #{shortcut}";
+    public static final String ID_PARAMETR = "#{id}";
     private int id;
     private String name;
     private String shortcut;

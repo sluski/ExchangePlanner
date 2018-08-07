@@ -7,8 +7,6 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.jsf.FacesContextUtils;
-import pl.slupski.controller.pojo.Product;
-import pl.slupski.controller.pojo.Unit;
 import pl.slupski.controller.services.ProductService;
 
 /**
@@ -19,19 +17,10 @@ import pl.slupski.controller.services.ProductService;
 @ViewScoped 
 public class TestView {
 
-    private Product newItem;
-    
     @Autowired
     private ProductService productService;
     
     public TestView() {
-        newItem = new Product();
-    }
-    
-    public void add(){
-        int id = productService.add(new Product(1, "tes", new Unit(1, "Kilogramy", "KG")));
-        productService.find(id);
-        List<Product> products = productService.findAll();
     }
     
     @PostConstruct
@@ -41,14 +30,7 @@ public class TestView {
                 .getAutowireCapableBeanFactory().autowireBean(this);
     }
 
-    public Product getNewItem() {
-        return newItem;
+    public void test(){
+        productService.find(1);
     }
-
-    public void setNewItem(Product newItem) {
-        this.newItem = newItem;
-    }
-    
-    
-
 }

@@ -1,34 +1,46 @@
 package pl.slupski.configuration;
 
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Configuration;
-import pl.slupski.model.entiy.TProduct;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  *
  * @author Przemysław Słupski <przemyslaw.slupski.98@gmail.com>
  */
 @Configuration
-@ComponentScan({"pl.slupski.model.dao", "pl.slupski.controller.services", "pl.slupski.model"})
+@ComponentScan({"pl.slupski.controller.services"})
+@MapperScan("pl.slupski.model.mappers")
 public class AppConfiguration {
 
-    private SessionFactory sessionFactory;
+    static {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            System.err.println("PostgreSQL DataSource unable to load PostgreSQL JDBC Driver");
+        }
+    }
+
+    @Bean(name = "dataSource")
+    public DataSource dataSource() {
+        return new DriverManagerDataSource("jdbc:postgresql://localhost:5432/ExchangePlanner", "postgres", "zaq1@WSX");
+    }
+
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager transactionManager() {
+        return new DataSourceTransactionManager(dataSource());
+    }
 
     @Bean
-    public SessionFactory getSessionFactory() {
-        if (sessionFactory != null) {
-            return sessionFactory;
-        } else {
-            org.hibernate.cfg.Configuration configuration = new org.hibernate.cfg.Configuration().addAnnotatedClass(TProduct.class);
-            configuration.configure("hibernate.cfg.xml");
-            ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
-            sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-            return sessionFactory;
-        }
+    public SqlSessionFactoryBean sqlSessionFactory(DataSource dataSource) {
+        SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+        factoryBean.setDataSource(dataSource);
+        return factoryBean;
     }
 }

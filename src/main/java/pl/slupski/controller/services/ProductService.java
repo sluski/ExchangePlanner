@@ -4,7 +4,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import pl.slupski.controller.interfaces.ProductServiceInterface;
 import pl.slupski.controller.pojo.Product;
-import pl.slupski.model.dao.ProductDao;
+import pl.slupski.model.mappers.ProductMapper;
 
 /**
  *
@@ -12,26 +12,26 @@ import pl.slupski.model.dao.ProductDao;
  */
 @Service
 public class ProductService implements ProductServiceInterface {
-    
-    private final ProductDao dao;
-    
-    public ProductService(final ProductDao dao) {
-        this.dao = dao;
-    }
 
+    private ProductMapper mapper;
+    
+    public ProductService(ProductMapper mapper){
+        this.mapper = mapper;
+    }
+    
     @Override
     public int add(Product item) {
-        return dao.add(item);
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Product find(int id) {
-        return dao.find(id);
+    public Product find(int id){
+        return mapper.find(id);
     }
-
+    
     @Override
     public List<Product> findAll() {
-        return dao.findAll();
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -48,5 +48,6 @@ public class ProductService implements ProductServiceInterface {
     public void delete(Product item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
+    
 }
