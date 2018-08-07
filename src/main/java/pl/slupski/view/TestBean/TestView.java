@@ -30,7 +30,4 @@ public class TestView {
                 .getAutowireCapableBeanFactory().autowireBean(this);
     }
 
-    public void test(){
-        productService.find(1);
-    }
 }
