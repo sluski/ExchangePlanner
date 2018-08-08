@@ -1,16 +1,17 @@
 package pl.slupski.controller.pojo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Przemysław Słupski <przemyslaw.slupski.98@gmail.com>
  */
-public class Unit {
+public class Unit extends Entity {
 
     public static final String TABLE_NAME = "t_unit";
     public static final String COLUMNS = "name, shortcut";
     public static final String PARAMETERS = "#{name}, #{shortcut}";
-    public static final String ID_PARAMETR = "#{id}";
-    private int id;
+
     private String name;
     private String shortcut;
 
@@ -18,7 +19,7 @@ public class Unit {
     }
 
     public Unit(int id, String name, String shortcut) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.shortcut = shortcut;
     }
@@ -28,12 +29,13 @@ public class Unit {
         this.shortcut = shortcut;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        Unit object = (Unit)obj;
+        if(!this.name.equals(object.getName())) return false;
+        if(!this.shortcut.equals(object.getShortcut())) return false;
+        return true;
     }
 
     public String getName() {

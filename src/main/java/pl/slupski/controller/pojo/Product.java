@@ -1,12 +1,17 @@
 package pl.slupski.controller.pojo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Przemysław Słupski <przemyslaw.slupski.98@gmail.com>
  */
-public class Product {
+public class Product extends Entity {
 
-    private int id;
+    public static final String TABLE_NAME = "t_product";
+    public static final String COLUMNS = "name, unit_id";
+    public static final String PARAMETERS = "#{name}, #{unit.id}";
+
     private String name;
     private Unit unit;
 
@@ -16,21 +21,22 @@ public class Product {
     }
 
     public Product(int id, String name, Unit unit) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.unit = unit;
     }
-    
+
     public Product() {
         //empty
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+    @Override
+    public boolean equals(Object obj) {
+        if(obj == null) return false;
+        Product object = (Product) obj;
+        if(!this.name.equals(object.name)) return false;
+        if(!this.unit.equals(object.unit)) return false;
+        return true;
     }
 
     public String getName() {
@@ -49,5 +55,4 @@ public class Product {
         this.unit = unit;
     }
 
-    
 }

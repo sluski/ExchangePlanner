@@ -14,21 +14,22 @@ import pl.slupski.model.mappers.ProductMapper;
 public class ProductService implements ProductServiceInterface {
 
     private ProductMapper mapper;
-    
-    public ProductService(ProductMapper mapper){
+
+    public ProductService(ProductMapper mapper) {
         this.mapper = mapper;
     }
-    
+
     @Override
     public int add(Product item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Product find(int id){
-        return mapper.find(id);
+    public Product find(int id) {
+//        return mapper.find(id);
+        return null;
     }
-    
+
     @Override
     public List<Product> findAll() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -48,6 +49,5 @@ public class ProductService implements ProductServiceInterface {
     public void delete(Product item) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
+
 }
