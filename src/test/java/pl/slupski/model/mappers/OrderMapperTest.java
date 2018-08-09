@@ -1,5 +1,6 @@
 package pl.slupski.model.mappers;
 
+import org.junit.After;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +9,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.slupski.configuration.TestAppConfiguration;
 import pl.slupski.controller.pojo.Order;
+import pl.slupski.test.GlobalDataBaseActions;
 import pl.slupski.testable.OrderTestable;
 
 /**
@@ -22,8 +24,15 @@ public class OrderMapperTest {
     private OrderTestable orderTestable;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private GlobalDataBaseActions globalActions;
 
     private final static int INCORRECT_ID = 0;
+
+    @After
+    public void tearDown() {
+        globalActions.fullClearDataBase();
+    }
 
     @Test
     public void insert_correctObject_inDataBase() {
@@ -49,6 +58,7 @@ public class OrderMapperTest {
 
     @Test
     public void findAll_objectInDb_foundMoreThanZero() {
+        assertTrue(orderMapper.findAll().isEmpty());
         orderTestable.randomize(true);
         assertTrue(orderMapper.findAll().size() > 0);
     }
@@ -63,6 +73,7 @@ public class OrderMapperTest {
     public void deleteById_correctId_objectDeleted() {
         Order item = orderTestable.randomize(false);
         orderMapper.insert(item);
+        assertTrue(orderMapper.find(item.getId()) != null);
         orderMapper.deleteById(item.getId());
         assertTrue(orderMapper.find(item.getId()) == null);
     }
@@ -70,6 +81,7 @@ public class OrderMapperTest {
     @Test
     public void delete_correctObject_objectDeleted() {
         Order item = orderTestable.randomize(true);
+        assertTrue(orderMapper.find(item.getId()) != null);
         orderMapper.delete(item);
         assertTrue(orderMapper.find(item.getId()) == null);
     }
@@ -77,6 +89,7 @@ public class OrderMapperTest {
     @Test
     public void deleteAll_emptyDb() {
         orderTestable.randomize(true);
+        assertTrue(!orderMapper.findAll().isEmpty());
         orderMapper.deleteAll();
         assertTrue(orderMapper.findAll().isEmpty());
     }

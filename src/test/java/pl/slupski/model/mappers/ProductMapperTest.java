@@ -1,5 +1,7 @@
 package pl.slupski.model.mappers;
 
+import org.junit.After;
+import org.junit.AfterClass;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.slupski.configuration.TestAppConfiguration;
 import pl.slupski.controller.pojo.Product;
-import pl.slupski.testable.ProductTestable;
+import pl.slupski.test.GlobalDataBaseActions;
 import pl.slupski.testable.ProductTestable;
 
 /**
@@ -23,8 +25,21 @@ public class ProductMapperTest {
     private ProductTestable productTestable;
     @Autowired
     private ProductMapper productMapper;
+    @Autowired
+    private GlobalDataBaseActions globalActions;
 
     private final static int INCORRECT_ID = 0;
+
+    @AfterClass
+    public static void tearDownClass() {
+        
+    }
+    
+    @After
+    public void tearDown() {
+        globalActions.fullClearDataBase();
+    }
+
 
     @Test
     public void insert_correctObject_inDataBase() {
@@ -50,6 +65,7 @@ public class ProductMapperTest {
 
     @Test
     public void findAll_objectInDb_foundMoreThanZero() {
+        assertTrue(productMapper.findAll().isEmpty());
         productTestable.randomize(true);
         assertTrue(productMapper.findAll().size() > 0);
     }
@@ -64,6 +80,7 @@ public class ProductMapperTest {
     public void deleteById_correctId_objectDeleted() {
         Product item = productTestable.randomize(false);
         productMapper.insert(item);
+        assertTrue(productMapper.find(item.getId()) != null);
         productMapper.deleteById(item.getId());
         assertTrue(productMapper.find(item.getId()) == null);
     }
@@ -71,6 +88,7 @@ public class ProductMapperTest {
     @Test
     public void delete_correctObject_objectDeleted() {
         Product item = productTestable.randomize(true);
+        assertTrue(productMapper.find(item.getId()) != null);
         productMapper.delete(item);
         assertTrue(productMapper.find(item.getId()) == null);
     }
@@ -78,6 +96,7 @@ public class ProductMapperTest {
     @Test
     public void deleteAll_emptyDb() {
         productTestable.randomize(true);
+        assertTrue(!productMapper.findAll().isEmpty());
         productMapper.deleteAll();
         assertTrue(productMapper.findAll().isEmpty());
     }

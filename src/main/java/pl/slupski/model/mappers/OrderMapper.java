@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.type.DateTypeHandler;
+import org.apache.ibatis.type.JdbcType;
 import pl.slupski.controller.pojo.Client;
 import pl.slupski.controller.pojo.Order;
 
@@ -25,12 +25,11 @@ public interface OrderMapper {
     @Options(useGeneratedKeys = true, keyColumn = "id")
     public int insert(Order item);
 
-    @Select("SELECT * FROM t_product where id=#{id}")
+    @Select("SELECT * FROM " + Order.TABLE_NAME + " WHERE id = " + Order.ID_PARAMETR)
     @Results({
         @Result(column = "id", property = "id"),
-        @Result(column = "client_id", property = "client", javaType = Client.class,
-                one = @One(select = "pl.slupski.model.mappers.ClientMapper.find")),
-        @Result(column = "realization_date", property = "realizationDate", javaType = Date.class, typeHandler = DateTypeHandler.class)
+        @Result(column = "client_id", property = "client", javaType = Client.class, one = @One(select = "pl.slupski.model.mappers.ClientMapper.find")),
+        @Result(column="realization_date", property = "realizationDate", jdbcType = JdbcType.TIMESTAMP, javaType = java.util.Date.class)
     })
     public Order find(int id);
 

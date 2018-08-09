@@ -1,4 +1,4 @@
-package pl.slupski.model.mappers;
+package pl.slupski.test;
 
 import org.apache.ibatis.annotations.Mapper;
 import pl.slupski.testable.Testable;

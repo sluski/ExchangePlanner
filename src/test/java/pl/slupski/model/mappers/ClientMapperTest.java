@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import pl.slupski.configuration.TestAppConfiguration;
 import pl.slupski.controller.pojo.Client;
+import pl.slupski.test.GlobalDataBaseActions;
 import pl.slupski.testable.ClientTestable;
 
 /**
@@ -21,83 +22,93 @@ import pl.slupski.testable.ClientTestable;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = {TestAppConfiguration.class})
 public class ClientMapperTest {
+
     @Autowired
     private ClientTestable clientTestable;
     @Autowired
     private ClientMapper clientMapper;
-    
+    @Autowired
+    private GlobalDataBaseActions globalActions;
+
     private final static int INCORRECT_ID = 0;
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
+
     }
-    
+
     @Before
     public void setUp() {
+
     }
-    
+
     @After
     public void tearDown() {
+        globalActions.fullClearDataBase();
     }
 
     @Test
-    public void insert_correctObject_inDataBase(){
+    public void insert_correctObject_inDataBase() {
         int beforeElementsCount = clientMapper.findAll().size();
         clientMapper.insert(clientTestable.randomize(false));
-        assertTrue(beforeElementsCount == clientMapper.findAll().size()-1);
+        assertTrue(beforeElementsCount == clientMapper.findAll().size() - 1);
     }
-    
+
     @Test
-    public void find_correctObject_foundOne(){
+    public void find_correctObject_foundOne() {
         Client before = clientTestable.randomize(false);
         clientMapper.insert(before);
         int id = before.getId();
         Client after = clientMapper.find(id);
         assertTrue(before.equals(after));
     }
-    
+
     @Test
-    public void find_incorrectObject_returnedNull(){
+    public void find_incorrectObject_returnedNull() {
         Client found = clientMapper.find(INCORRECT_ID);
         assertTrue(found == null);
     }
-    
+
     @Test
-    public void findAll_objectInDb_foundMoreThanZero(){
+    public void findAll_objectInDb_foundMoreThanZero() {
+        assertTrue(clientMapper.findAll().isEmpty());
         clientTestable.randomize(true);
         assertTrue(clientMapper.findAll().size() > 0);
     }
-    
+
     @Test
-    public void findAll_objectsNotInDb_returnedEmptyList(){
+    public void findAll_objectsNotInDb_returnedEmptyList() {
         clientMapper.deleteAll();
         assertTrue(clientMapper.findAll().isEmpty());
     }
-    
+
     @Test
-    public void deleteById_correctId_objectDeleted(){
+    public void deleteById_correctId_objectDeleted() {
         Client item = clientTestable.randomize(false);
         clientMapper.insert(item);
+        assertTrue(clientMapper.find(item.getId()) != null);
         clientMapper.deleteById(item.getId());
         assertTrue(clientMapper.find(item.getId()) == null);
     }
-    
+
     @Test
-    public void delete_correctObject_objectDeleted(){
+    public void delete_correctObject_objectDeleted() {
         Client item = clientTestable.randomize(true);
+        assertTrue(clientMapper.find(item.getId()) != null);
         clientMapper.delete(item);
         assertTrue(clientMapper.find(item.getId()) == null);
     }
-    
+
     @Test
-    public void deleteAll_emptyDb(){
+    public void deleteAll_emptyDb() {
         clientTestable.randomize(true);
+        assertTrue(!clientMapper.findAll().isEmpty());
         clientMapper.deleteAll();
         assertTrue(clientMapper.findAll().isEmpty());
     }
-    
+
 }

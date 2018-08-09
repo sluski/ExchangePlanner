@@ -9,15 +9,13 @@ import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
-import pl.slupski.model.mappers.ProductMapper;
-import pl.slupski.model.mappers.UnitMapper;
 
 /**
  *
  * @author Przemysław Słupski <przemyslaw.slupski.98@gmail.com>
  */
 @Configuration
-@ComponentScan({"pl.slupski.testable"})
+@ComponentScan({"pl.slupski.testable", "pl.slupski.test"})
 @Import(AppConfiguration.class)
 public class TestAppConfiguration {
 
