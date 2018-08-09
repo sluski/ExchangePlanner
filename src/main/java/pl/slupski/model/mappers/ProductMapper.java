@@ -9,8 +9,12 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
+import pl.slupski.controller.pojo.Client;
 import pl.slupski.controller.pojo.Product;
 import pl.slupski.controller.pojo.Unit;
+import pl.slupski.model.sqlbuilder.ClientSqlBuilder;
+import pl.slupski.model.sqlbuilder.ProductSqlBuilder;
 
 /**
  *
@@ -35,12 +39,15 @@ public interface ProductMapper {
     @Select("SELECT * FROM " + Product.TABLE_NAME)
     public List<Product> findAll();
 
-    @Delete("DELETE FROM " + Product.TABLE_NAME + " WHERE id=" + Product.ID_PARAMETR)
+    @Delete("DELETE FROM " + Product.TABLE_NAME + " WHERE id=" + Product.ID_PARAMETER)
     public void deleteById(int id);
 
-    @Delete("DELETE FROM " + Product.TABLE_NAME + " WHERE id=" + Product.ID_PARAMETR)
+    @Delete("DELETE FROM " + Product.TABLE_NAME + " WHERE id=" + Product.ID_PARAMETER)
     public void delete(Product item);
 
     @Delete("DELETE FROM " + Product.TABLE_NAME)
     public void deleteAll();
+    
+    @UpdateProvider(type = ProductSqlBuilder.class, method = "generateUpdate")
+    public void update(Product item);
 }

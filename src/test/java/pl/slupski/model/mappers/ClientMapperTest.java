@@ -110,5 +110,14 @@ public class ClientMapperTest {
         clientMapper.deleteAll();
         assertTrue(clientMapper.findAll().isEmpty());
     }
+    
+    @Test
+    public void update_correctData_objectChanged(){
+        Client before = clientTestable.randomize(true);
+        Client toUpdate = before;
+        toUpdate.setName("changedName");
+        clientMapper.update(toUpdate);
+        assertTrue(toUpdate.equals(clientMapper.find(toUpdate.getId())));
+    }
 
 }

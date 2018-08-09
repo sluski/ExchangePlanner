@@ -6,7 +6,9 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
 import pl.slupski.controller.pojo.Unit;
+import pl.slupski.model.sqlbuilder.UnitSqlBuilder;
 
 /**
  *
@@ -19,19 +21,22 @@ public interface UnitMapper {
     @Options(useGeneratedKeys=true, keyColumn="id")
     public int insert(Unit item);
 
-    @Select("SELECT * FROM " + Unit.TABLE_NAME + " WHERE id = " + Unit.ID_PARAMETR)
+    @Select("SELECT * FROM " + Unit.TABLE_NAME + " WHERE id = " + Unit.ID_PARAMETER)
     public Unit find(final int id);
 
     @Select("SELECT * FROM " + Unit.TABLE_NAME)
     public List<Unit> findAll();
 
-    @Delete("DELETE FROM " + Unit.TABLE_NAME + " WHERE id=" + Unit.ID_PARAMETR)
+    @Delete("DELETE FROM " + Unit.TABLE_NAME + " WHERE id=" + Unit.ID_PARAMETER)
     public void deleteById(int id);
 
-    @Delete("DELETE FROM " + Unit.TABLE_NAME + " WHERE id=" + Unit.ID_PARAMETR)
+    @Delete("DELETE FROM " + Unit.TABLE_NAME + " WHERE id=" + Unit.ID_PARAMETER)
     public void delete(Unit item);
     
     @Delete("DELETE FROM " + Unit.TABLE_NAME)
     public void deleteAll();
+    
+    @UpdateProvider(type = UnitSqlBuilder.class, method = "generateUpdate")
+    public void update(Unit item);
 
 }

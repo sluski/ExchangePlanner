@@ -100,4 +100,13 @@ public class ProductMapperTest {
         productMapper.deleteAll();
         assertTrue(productMapper.findAll().isEmpty());
     }
+    
+    @Test
+    public void update_correctData_objectChanged(){
+        Product before = productTestable.randomize(true);
+        Product toUpdate = before;
+        toUpdate.setName("changedName");
+        productMapper.update(toUpdate);
+        assertTrue(toUpdate.equals(productMapper.find(toUpdate.getId())));
+    }
 }

@@ -10,7 +10,7 @@ public abstract class Entity implements Serializable {
     public static final String TABLE_NAME = "";
     public static final String COLUMNS = "";
     public static final String PARAMETERS = "";
-    public static final String ID_PARAMETR = "#{id}";
+    public static final String ID_PARAMETER = "#{id}";
     
     private int id;
 

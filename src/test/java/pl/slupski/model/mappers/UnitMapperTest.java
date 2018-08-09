@@ -114,5 +114,14 @@ public class UnitMapperTest {
         unitMapper.deleteAll();
         assertTrue(unitMapper.findAll().isEmpty());
     }
+    
+    @Test
+    public void update_correctData_objectChanged(){
+        Unit before = unitTestable.randomize(true);
+        Unit toUpdate = before;
+        toUpdate.setName("changedName");
+        unitMapper.update(toUpdate);
+        assertTrue(toUpdate.equals(unitMapper.find(toUpdate.getId())));
+    }
 
 }

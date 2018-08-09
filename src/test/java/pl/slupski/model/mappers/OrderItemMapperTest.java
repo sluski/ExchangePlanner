@@ -101,4 +101,13 @@ public class OrderItemMapperTest {
         orderItemMapper.deleteAll();
         assertTrue(orderItemMapper.findAll().isEmpty());
     }
+    
+    @Test
+    public void update_correctData_objectChanged(){
+        OrderItem before = orderItemTestable.randomize(true);
+        OrderItem toUpdate = before;
+        toUpdate.setQuantity(2.233);
+        orderItemMapper.update(toUpdate);
+        assertTrue(toUpdate.equals(orderItemMapper.find(toUpdate.getId())));
+    }
 }

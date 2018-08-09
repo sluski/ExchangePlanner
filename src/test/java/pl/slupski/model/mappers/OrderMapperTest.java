@@ -1,5 +1,6 @@
 package pl.slupski.model.mappers;
 
+import java.util.Date;
 import org.junit.After;
 import static org.junit.Assert.assertTrue;
 import org.junit.Test;
@@ -92,5 +93,14 @@ public class OrderMapperTest {
         assertTrue(!orderMapper.findAll().isEmpty());
         orderMapper.deleteAll();
         assertTrue(orderMapper.findAll().isEmpty());
+    }
+    
+    @Test
+    public void update_correctData_objectChanged(){
+        Order before = orderTestable.randomize(true);
+        Order toUpdate = before;
+        toUpdate.setRealizationDate(new Date(1998, 6, 2));
+        orderMapper.update(toUpdate);
+        assertTrue(toUpdate.equals(orderMapper.find(toUpdate.getId())));
     }
 }

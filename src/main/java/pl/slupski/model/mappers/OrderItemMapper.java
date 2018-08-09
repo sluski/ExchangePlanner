@@ -9,9 +9,13 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.UpdateProvider;
+import pl.slupski.controller.pojo.Client;
 import pl.slupski.controller.pojo.Order;
 import pl.slupski.controller.pojo.OrderItem;
 import pl.slupski.controller.pojo.Product;
+import pl.slupski.model.sqlbuilder.ClientSqlBuilder;
+import pl.slupski.model.sqlbuilder.OrderItemSqlBuilder;
 
 /**
  *
@@ -24,7 +28,7 @@ public interface OrderItemMapper {
     @Options(useGeneratedKeys=true, keyColumn="id")
     public int insert(OrderItem item);
 
-    @Select("SELECT * FROM " + OrderItem.TABLE_NAME + " WHERE id = " + OrderItem.ID_PARAMETR)
+    @Select("SELECT * FROM " + OrderItem.TABLE_NAME + " WHERE id = " + OrderItem.ID_PARAMETER)
     @Results({
         @Result(column = "product_id", property = "product", javaType = Product.class, one = @One(select = "pl.slupski.model.mappers.ProductMapper.find")),
         @Result(column = "order_id", property = "order", javaType = Order.class, one = @One(select = "pl.slupski.model.mappers.OrderMapper.find")),
@@ -35,12 +39,15 @@ public interface OrderItemMapper {
     @Select("SELECT * FROM " + OrderItem.TABLE_NAME)
     public List<OrderItem> findAll();
 
-    @Delete("DELETE FROM " + OrderItem.TABLE_NAME + " WHERE id=" + OrderItem.ID_PARAMETR)
+    @Delete("DELETE FROM " + OrderItem.TABLE_NAME + " WHERE id=" + OrderItem.ID_PARAMETER)
     public void deleteById(int id);
 
-    @Delete("DELETE FROM " + OrderItem.TABLE_NAME + " WHERE id=" + OrderItem.ID_PARAMETR)
+    @Delete("DELETE FROM " + OrderItem.TABLE_NAME + " WHERE id=" + OrderItem.ID_PARAMETER)
     public void delete(OrderItem item);
     
     @Delete("DELETE FROM " + OrderItem.TABLE_NAME)
     public void deleteAll();
+    
+    @UpdateProvider(type = OrderItemSqlBuilder.class, method = "generateUpdate")
+    public void update(OrderItem item);
 }
