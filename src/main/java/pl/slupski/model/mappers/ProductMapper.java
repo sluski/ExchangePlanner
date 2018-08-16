@@ -37,6 +37,11 @@ public interface ProductMapper {
     public Product find(int id);
 
     @Select("SELECT * FROM " + Product.TABLE_NAME)
+    @Results({
+        @Result(column = "id", property = "id"),
+        @Result(column = "name", property = "name"),
+        @Result(column = "unit_id", property = "unit", javaType = Unit.class, one = @One(select = "pl.slupski.model.mappers.UnitMapper.find"))
+    })
     public List<Product> findAll();
 
     @Delete("DELETE FROM " + Product.TABLE_NAME + " WHERE id=" + Product.ID_PARAMETER)

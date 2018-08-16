@@ -10,11 +10,9 @@ import org.apache.ibatis.annotations.Result;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.UpdateProvider;
-import pl.slupski.controller.pojo.Client;
 import pl.slupski.controller.pojo.Order;
 import pl.slupski.controller.pojo.OrderItem;
 import pl.slupski.controller.pojo.Product;
-import pl.slupski.model.sqlbuilder.ClientSqlBuilder;
 import pl.slupski.model.sqlbuilder.OrderItemSqlBuilder;
 
 /**

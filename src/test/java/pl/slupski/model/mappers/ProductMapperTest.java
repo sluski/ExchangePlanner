@@ -37,7 +37,7 @@ public class ProductMapperTest {
     
     @After
     public void tearDown() {
-        globalActions.fullClearDataBase();
+//        globalActions.fullClearDataBase();
     }
 
 
