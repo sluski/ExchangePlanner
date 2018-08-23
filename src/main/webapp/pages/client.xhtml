@@ -11,6 +11,60 @@
     </ui:define>
 
     <ui:define name="content">
-        Here will be client content
+        <style>
+            .ui-datatable{
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                min-height: calc(100% - 36px);
+                box-sizing: border-box;
+            }
+            .footer_button{
+                display: inline-block;
+                height: 30px;
+                width: 50px;
+                margin: 0 3px;
+
+            }
+            .content_footer{
+                padding: 0;
+                height: 30px;
+                padding-top: 6px;
+                margin: 0;
+                width: 100%;
+                box-sizing: border-box;
+                border-top: 1px solid grey;
+                border-radius: 1px;
+            }
+        </style>
+        <p:dataTable value="#{clientView.clients}" selection="#{clientView.selected}" var="client" rowKey="#{client.id}" selectionMode="single">
+            <p:column headerText="Nazwa">
+                <p:outputLabel value="#{client.name}" />
+            </p:column>
+            <p:column headerText="Adres">
+                <p:outputLabel value="#{client.address}" />
+            </p:column>
+
+        </p:dataTable>
+        <div class="content_footer">
+
+            <p:commandButton class="footer_button" value="+" actionListener="#{productDialogView.setActionName}" onclick="PF('dial').show();">
+                <f:param name="clickActionName" value="Dodaj" />
+                <p:ajax event="dialogReturn" update="#{p:component('contentForm')}" />
+            </p:commandButton>
+            <p:commandButton class="footer_button" actionListener="#{productDialogView.setActionName}" value="..." onclick="PF('dial').show();">
+                <f:param name="clickActionName" value="Edytuj" />
+            </p:commandButton>
+            <p:commandButton class="footer_button" value="-" actionListener="#{productView.onClickDelete}" update="#{p:component('contentForm')}"/>
+
+        </div>
+    </ui:define>
+
+    <ui:define name="dialog">
+        <h:form>
+            <p:dialog id="dial" width="400" height="142" widgetVar="dial" resizable="false" closable="true" header="Dodaj produkt">
+
+            </p:dialog>
+        </h:form>
     </ui:define>
 </ui:composition>

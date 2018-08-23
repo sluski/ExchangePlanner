@@ -88,6 +88,7 @@
 
                 </p:panelGrid>
                 <p:commandButton value="Anuluj" actionListener="#{productDialogView.onClickCancel}" oncomplete="PF('dial').hide();" style="float: left; display: inline-block; margin-top: 5px"/>
+                <p:commandButton value="update" style="display: inline-block; " process="@all" update="#{p:component('dial')}" />
                 <p:commandButton value="#{productDialogView.actionName}" actionListener="#{productDialogView.onClickAdd}" style="float: right; display: inline-block; margin-top: 5px" oncomplete="PF('dial').hide();" />
             </p:dialog>
         </h:form>
