@@ -1,27 +1,95 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
-    <h:head>
-        <title>Facelet Title</title>
-    </h:head>
-    <h:body style="width: 100vw; height: 100vh; margin: 0; padding: 0">
+<ui:composition
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui"
+    template="./index.xhtml">
 
+    <ui:define name="title">
+        Exchange Planner - Products
+    </ui:define>
+
+
+
+    <ui:define name="content">
         <style>
-            .product_table{
-                width: 80%;
+            .ui-datatable{
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                min-height: calc(100% - 36px);
+                box-sizing: border-box;
+            }
+            .footer_button{
+                display: inline-block;
+                height: 30px;
+                width: 50px;
+                margin: 0 3px;
+
+            }
+            .content_footer{
+                padding: 0;
+                height: 30px;
+                padding-top: 6px;
+                margin: 0;
+                width: 100%;
+                box-sizing: border-box;
+                border-top: 1px solid grey;
+                border-radius: 1px;
             }
         </style>
-        <p:dataTable value="#{productView.products}" styleClass="product_table" var="product" rowKey="#{product.id}">
-            <p:column headerText="Nazwa">
+        <p:dataTable id="productTable"  value="#{productView.products}" selectionMode="single" selection="#{productView.selected}" var="product" rowKey="#{product.id}">
+            <p:column headerText="Nazwa" width="100">
                 <p:outputLabel value="#{product.name}" />
             </p:column>
-            <p:column headerText="Jednostka">
-                <p:outputLabel value="#{product.unit}" />
+
+            <p:column headerText="Jednostka" width="30">
+                <p:outputLabel value="#{product.unit.name}" />
             </p:column>
         </p:dataTable>
-    </h:body>
-</html>
+        <div class="content_footer">
 
+            <p:commandButton class="footer_button" value="+" actionListener="#{productDialogView.setActionName}" onclick="PF('dial').show();" oncomplete="#{p:component('dial')}">
+                <f:param name="clickActionName" value="Dodaj" />
+                <p:ajax event="dialogReturn" update="#{p:component('contentForm')}" />
+            </p:commandButton>
+            <p:commandButton class="footer_button" actionListener="#{productDialogView.setActionName}" value="...">
+                <f:param name="clickActionName" value="Edytuj" />
+            </p:commandButton>
+            <p:commandButton class="footer_button" value="-" actionListener="#{productView.onClickDelete}" update="#{p:component('contentForm')}"/>
+
+        </div>
+    </ui:define>
+
+    <ui:define name="dialog">
+        <h:form>
+            <p:dialog id="dial" width="400" height="142" widgetVar="dial" resizable="false" closable="true" header="Dodaj produkt">
+                <p:panelGrid style="margin-top: 5px;">
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Nazwa produktu:" />
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{productDialogView.newItem.name}" required="true"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <p:outputLabel value="Jednostka:" />
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{productDialogView.newItem.unit}" converter="#{unitConverter}" required="true">
+                                <f:selectItem itemLabel="Wybierz jednostkę" />
+                                <f:selectItems value="#{productDialogView.units}" var="unit" itemLabel="#{unit.name}" itemValue="#{unit}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+
+                </p:panelGrid>
+                <p:commandButton value="Anuluj" actionListener="#{productDialogView.onClickCancel}" oncomplete="PF('dial').hide();" style="float: left; display: inline-block; margin-top: 5px"/>
+                <p:commandButton value="#{productDialogView.actionName}" actionListener="#{productDialogView.onClickAdd}" style="float: right; display: inline-block; margin-top: 5px" oncomplete="PF('dial').hide();" />
+            </p:dialog>
+        </h:form>
+    </ui:define>
+</ui:composition>

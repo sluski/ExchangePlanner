@@ -18,23 +18,29 @@ public class Unit extends Entity {
     public Unit() {
     }
 
-    public Unit(int id, String name, String shortcut) {
+    public Unit(final int id, final String name, final String shortcut) {
         super(id);
         this.name = name;
         this.shortcut = shortcut;
     }
-    
-    public Unit(String name, String shortcut) {
+
+    public Unit(final String name, final String shortcut) {
         this.name = name;
         this.shortcut = shortcut;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
-        Unit object = (Unit)obj;
-        if(!this.name.equals(object.getName())) return false;
-        if(!this.shortcut.equals(object.getShortcut())) return false;
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        Unit object = (Unit) obj;
+        if (!this.name.equals(object.getName())) {
+            return false;
+        }
+        if (!this.shortcut.equals(object.getShortcut())) {
+            return false;
+        }
         return true;
     }
 
@@ -42,7 +48,7 @@ public class Unit extends Entity {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -50,9 +56,8 @@ public class Unit extends Entity {
         return shortcut;
     }
 
-    public void setShortcut(String shortcut) {
+    public void setShortcut(final String shortcut) {
         this.shortcut = shortcut;
     }
-    
-    
+
 }

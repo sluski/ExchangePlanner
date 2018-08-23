@@ -3,15 +3,76 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <title><ui:insert name="title">Exchange Planner</ui:insert></title>
     </h:head>
     <h:body style="width: 100vw; height: 100vh; margin: 0; padding: 0">
-        <div id="content" style="position: absolute; top: 50%; left: 50%; width: 500px; height: 250px; border: 0.5px solid grey; box-sizing: border-box; margin-left: -225px; margin-top: -125px;">
-            <p:outputLabel value="Witaj w aplikacji Exchange Planner" style="font-size: 24px; font-weight: bold; width: 500px; text-align: center; margin-top: 50px; box-sizing: border-box; display: block"/><br/>
-            <p:outputLabel value="version 1.0" style="font-size: 16px; font-style: italic; text-align: left; width: 400px; margin-left: 50px; display: block; padding: 0;"/>
-        </div>
+        <style>
+            .menu{
+                width: calc(100%-10px);
+                padding: 0;
+                background-color: white;
+                padding-left: 1px;
+            }
+            .menu_item{
+                padding: 3px 6px;
+                border: 0.5px solid grey;
+                font-size: 16px;
+                margin: 0 2px;
+                height: 100%;
+                background-color: white;
+            }
+            .layout{
+                width: 60%;
+                margin: auto auto;
+                box-sizing: border-box;
+                height: 98vh;
+            }
+            .ui-layout-north{
+                padding: 0;
+                margin: 0;
+                height: 20px;
+                background-color: white;
+            }
+            .ui-widget-content .ui-state-default{
+                background-color: white;
+
+            }
+            .ui-widget-header .ui-state-default{
+                background-color: white;
+            }
+        </style>
+        <p:layout class="layout">
+            <p:layoutUnit position="north">
+                <h:form>
+                    <div class="menu">
+                        <p:commandButton class="menu_item" action="order.xhtml" value="Zamówienia"/>
+                        <p:commandButton class="menu_item" action="product.xhtml" value="Produkty"/>
+                        <p:commandButton class="menu_item" action="client.xhtml" value="Klienci"/>
+                        <p:commandButton class="menu_item" action="unit.xhtml" value="Jednostki"/>
+                        <p:commandButton class="menu_item" action="settings.xhtml" value="Ustawienia"/>
+                    </div>
+                </h:form>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="east" size="300" header="Right" resizable="true" collapsible="true">
+                <h:outputText value="Right unit content." />
+            </p:layoutUnit>
+
+            <p:layoutUnit position="center">
+                <h:form id="contentForm" style="height: 100%">
+                    <ui:insert name="content">
+                        content
+                    </ui:insert>
+                </h:form>
+            </p:layoutUnit>
+
+            <ui:insert name="dialog">
+            </ui:insert>
+
+        </p:layout>
     </h:body>
 </html>
 

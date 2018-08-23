@@ -15,12 +15,12 @@ public class Product extends Entity {
     private String name;
     private Unit unit;
 
-    public Product(String name, Unit unit) {
+    public Product(final String name, final Unit unit) {
         this.name = name;
         this.unit = unit;
     }
 
-    public Product(int id, String name, Unit unit) {
+    public Product(final int id, final String name, final Unit unit) {
         super(id);
         this.name = name;
         this.unit = unit;
@@ -31,11 +31,17 @@ public class Product extends Entity {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if(obj == null) return false;
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
         Product object = (Product) obj;
-        if(!this.name.equals(object.name)) return false;
-        if(!this.unit.equals(object.unit)) return false;
+        if (!this.name.equals(object.name)) {
+            return false;
+        }
+        if (!this.unit.equals(object.unit)) {
+            return false;
+        }
         return true;
     }
 
@@ -43,7 +49,7 @@ public class Product extends Entity {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -51,7 +57,7 @@ public class Product extends Entity {
         return unit;
     }
 
-    public void setUnit(Unit unit) {
+    public void setUnit(final Unit unit) {
         this.unit = unit;
     }
 
